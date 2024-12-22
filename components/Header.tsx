@@ -5,22 +5,22 @@ import React from "react";
 function Header({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <div className="header">
-      <Link href="/">
+      <Link href="/" className="flex items-center gap-2">
         <Image
-          src="/assets/icons/logo.svg"
+          src="/assets/images/cloud-doc-logo.svg"
           alt="live doc"
-          width={120}
+          width={32}
           height={32}
-          className="hidden md:block"
         />
+        <span className="hidden md:block font-semibold text-lg">Live Docs</span>
         {/* Logo wihtout name for smaller screen */}
-        <Image
+        {/* <Image
           src="/assets/icons/logo-icon.svg"
           alt="live doc"
           width={32}
           height={32}
           className="mr-2 md:hidden"
-        />
+        /> */}
       </Link>
       {children}
     </div>
