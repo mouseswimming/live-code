@@ -23,18 +23,45 @@ export const createDocument = async ({
       title: "Untitled Document",
     };
 
+    /* 
+      The person who creates the document will have write access to the document.
+    */
     const usersAccesses: RoomAccesses = { [email]: ["room:write"] };
 
     const room = await liveblocks.createRoom(roomId, {
       metadata,
       usersAccesses,
-      defaultAccesses: [],
+      defaultAccesses: ["room:write"],
     });
 
     revalidatePath("/");
 
+    // the return object from server need to be parsed and stringified to be sent to the client
     return parseStringify(room);
   } catch (error) {
     console.error(`error creating document: ${error}`);
+  }
+};
+
+export const getDocument = async ({
+  roomId,
+  userId,
+}: {
+  roomId: string;
+  userId: string;
+}) => {
+  try {
+    const room = await liveblocks.getRoom(roomId);
+    console.log({ userId, room });
+
+    // const hasAccess = Object.keys(room.usersAccesses).includes(userId);
+
+    // if (!hasAccess) {
+    //   throw new Error("You don't have access to this document");
+    // }
+
+    return parseStringify(room);
+  } catch (error) {
+    console.error(`error getting document: ${error}`);
   }
 };

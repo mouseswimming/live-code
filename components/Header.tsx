@@ -1,10 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import React from "react";
+import { cn } from "@/lib/utils";
 
-function Header({ children }: Readonly<{ children: React.ReactNode }>) {
+function Header({
+  children,
+  className,
+}: Readonly<{ children: React.ReactNode; className?: string }>) {
   return (
-    <div className="header">
+    <div className={cn(className, "header")}>
       <Link href="/" className="flex items-center gap-2">
         <Image
           src="/assets/images/cloud-doc-logo.svg"
@@ -12,15 +16,9 @@ function Header({ children }: Readonly<{ children: React.ReactNode }>) {
           width={32}
           height={32}
         />
-        <span className="hidden md:block font-semibold text-lg">Live Docs</span>
-        {/* Logo wihtout name for smaller screen */}
-        {/* <Image
-          src="/assets/icons/logo-icon.svg"
-          alt="live doc"
-          width={32}
-          height={32}
-          className="mr-2 md:hidden"
-        /> */}
+        <span className="hidden md:block font-semibold text-lg uppercase">
+          Live Docs
+        </span>
       </Link>
       {children}
     </div>
