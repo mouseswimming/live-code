@@ -22,7 +22,7 @@ async function Document({ params: { id } }: { params: { id: string } }) {
 
   return (
     <main className="flex w-full flex-col items-center">
-      <CollaborativeRoom roomId={id} />
+      <CollaborativeRoom roomId={id} roomMetadata={room.metadata} />
     </main>
   );
 }
