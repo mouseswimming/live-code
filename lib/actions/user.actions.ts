@@ -3,7 +3,11 @@
 import { clerkClient } from "@clerk/nextjs/server";
 import { parseStringify } from "../utils";
 
-export const getClerkUsers = async ({ userIds }: { userIds: string[] }) => {
+export const getClerkUsers = async ({
+  userIds,
+}: {
+  userIds: string[];
+}): Promise<User[] | undefined> => {
   const clerk = await clerkClient();
 
   try {

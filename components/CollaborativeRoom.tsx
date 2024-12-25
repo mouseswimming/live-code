@@ -6,11 +6,11 @@ import Header from "./Header";
 import { Editor } from "@/components/editor/Editor";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import ActiveCollaborators from "./ActiveCollaborators";
-import { RoomMetadata } from "@/types";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { FilePenLine } from "lucide-react";
 import { updateDocumentTitle } from "@/lib/actions/room.actions";
+import Loader from "./Loader";
 
 /* 
   Each doc will have its own collaborative room. and we will assign each doc a unique id.
@@ -19,12 +19,9 @@ import { updateDocumentTitle } from "@/lib/actions/room.actions";
 const CollaborativeRoom = ({
   roomId,
   roomMetadata,
-}: {
-  roomId: string;
-  roomMetadata: RoomMetadata;
-}) => {
-  const currentUserType = "editor";
-
+  users,
+  currentUserType,
+}: CollaborativeRoomProps) => {
   const [editing, setEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [documentTitle, setDocumentTitle] = useState(roomMetadata.title);
@@ -58,6 +55,15 @@ const CollaborativeRoom = ({
     }
   };
 
+  const editTitleHandler = () => {
+    console.log("edit title");
+    setEditing(true);
+    setTimeout(() => {
+      inputRef.current?.focus();
+      inputRef.current?.setSelectionRange(0, inputRef.current.value.length);
+    }, 0);
+  };
+
   useEffect(() => {
     const handleOutsideClick = (e: MouseEvent) => {
       // click outside of the title container
@@ -82,7 +88,7 @@ const CollaborativeRoom = ({
 
   return (
     <RoomProvider id={roomId}>
-      <ClientSideSuspense fallback={<div>Loading…</div>}>
+      <ClientSideSuspense fallback={<Loader />}>
         <div className="collaborative-room">
           <Header>
             <div
@@ -101,22 +107,15 @@ const CollaborativeRoom = ({
                   className="document-title-input"
                 />
               ) : (
-                <p className="document-title">{documentTitle}</p>
+                <p className="document-title" onClick={editTitleHandler}>
+                  {documentTitle}
+                </p>
               )}
               {currentUserType === "editor" && !editing && (
                 <Button
                   title="Edit title"
                   size="icon"
-                  onClick={() => {
-                    setEditing(true);
-                    setTimeout(() => {
-                      inputRef.current?.focus();
-                      inputRef.current?.setSelectionRange(
-                        0,
-                        inputRef.current.value.length
-                      );
-                    }, 0);
-                  }}
+                  onClick={editTitleHandler}
                 >
                   <FilePenLine size={24} />
                 </Button>
@@ -139,7 +138,7 @@ const CollaborativeRoom = ({
               </SignedIn>
             </div>
           </Header>
-          <Editor />
+          <Editor roomId={roomId} currentUserType={currentUserType} />
         </div>
       </ClientSideSuspense>
     </RoomProvider>

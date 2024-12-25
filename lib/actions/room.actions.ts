@@ -1,7 +1,7 @@
 "use server";
 
 import { liveblocks } from "../liveblocks";
-import { RoomAccesses } from "@liveblocks/node";
+import { RoomAccesses, RoomData } from "@liveblocks/node";
 import { revalidatePath } from "next/cache";
 import { parseStringify } from "../utils";
 
@@ -49,10 +49,9 @@ export const getDocument = async ({
 }: {
   roomId: string;
   userId: string;
-}) => {
+}): Promise<RoomData | undefined> => {
   try {
     const room = await liveblocks.getRoom(roomId);
-    console.log({ userId, room });
 
     // const hasAccess = Object.keys(room.usersAccesses).includes(userId);
 
@@ -63,6 +62,22 @@ export const getDocument = async ({
     return parseStringify(room);
   } catch (error) {
     console.error(`error getting document: ${error}`);
+  }
+};
+
+export const getDocuments = async (email: string) => {
+  try {
+    const rooms = await liveblocks.getRooms({ userId: email });
+
+    // const hasAccess = Object.keys(room.usersAccesses).includes(userId);
+
+    // if (!hasAccess) {
+    //   throw new Error("You don't have access to this document");
+    // }
+
+    return parseStringify(rooms);
+  } catch (error) {
+    console.error(`error getting documens: ${error}`);
   }
 };
 
