@@ -211,6 +211,10 @@
   --lb-dynamic-background: #1b2840;
 }
 
+.lb-inbox-notification-list-item {
+  background: #9fa0a0;
+}
+
 .lb-comment,
 .lb-thread-comments,
 .lb-composer,
@@ -269,8 +273,7 @@
 }
 
 .lb-comment-content {
-  background: #0b1527;
-  margin-top: 16px;
+  border: 1px solid #393939;
   padding: 12px;
   border-radius: 4px;
   font-size: 14px;

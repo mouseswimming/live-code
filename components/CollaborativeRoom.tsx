@@ -11,6 +11,7 @@ import { Button } from "./ui/button";
 import { FilePenLine } from "lucide-react";
 import { updateDocumentTitle } from "@/lib/actions/room.actions";
 import Loader from "./Loader";
+import ShareModal from "./ShareModal";
 
 /* 
   Each doc will have its own collaborative room. and we will assign each doc a unique id.
@@ -130,6 +131,14 @@ const CollaborativeRoom = ({
             </div>
             <div className="flex w-fit justify-end gap-2 sm:gap-3">
               <ActiveCollaborators />
+
+              <ShareModal
+                roomId={roomId}
+                collaborators={users}
+                creatorId={roomMetadata.creatorId}
+                currentUserType={currentUserType}
+              />
+
               <SignedOut>
                 <SignInButton />
               </SignedOut>

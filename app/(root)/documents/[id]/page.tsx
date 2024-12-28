@@ -20,22 +20,33 @@ async function Document({ params: { id } }: { params: { id: string } }) {
   if (!room) {
     redirect("/");
   }
-
+  /* 
+    usersAccesses: {
+      'mouseswimming@gmail.com': [ 'room:write' ],
+      'vivian.liu.me@gmail.com': [ 'room:read', 'room:presence:write' ]
+    },
+    so the Object.keys(room.usersAccesses) will be useers' email addresses
+  */
   const userIds = Object.keys(room.usersAccesses);
+
   const users = await getClerkUsers({ userIds });
+  console.log(users);
+  const usersData: User[] = userIds.map((userId) => {
+    const user = users?.find((u) => u?.email === userId);
+    const userAccesses = room.usersAccesses[userId] as AccessType;
+    const hasWritePermission = (userAccesses as string[])?.includes(
+      "room:write"
+    );
 
-  const usersData: User[] =
-    users?.map((user) => {
-      const userAccesses = room.usersAccesses[user.email] as AccessType;
-      const hasWritePermission = (userAccesses as string[]).includes(
-        "room:write"
-      );
-
-      return {
-        ...user,
-        userType: hasWritePermission ? "editor" : "viewer",
-      };
-    }) ?? [];
+    return {
+      id: user ? user.id : userId,
+      name: user ? user.name : "User not joined",
+      email: user ? user.email : userId,
+      avatar: user ? user.avatar : "/default-avatar.png",
+      color: user ? user.color : "#cccccc",
+      userType: hasWritePermission ? "editor" : "viewer",
+    };
+  });
 
   const currentUserAccessType: AccessType =
     room.usersAccesses[clerkUser.emailAddresses[0].emailAddress] ?? [];
