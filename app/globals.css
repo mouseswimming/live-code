@@ -71,7 +71,7 @@
   }
 
   .shad-popover {
-    @apply w-[460px] border-none bg-dark-200 shadow-lg !important;
+    @apply w-[460px] border-none bg-dark-400 shadow-lg !important;
   }
 
   .floating-toolbar {
@@ -209,10 +209,6 @@
   --lb-accent-subtle: #0b1527;
   --lb-radius: 0px;
   --lb-dynamic-background: #1b2840;
-}
-
-.lb-inbox-notification-list-item {
-  background: #9fa0a0;
 }
 
 .lb-comment,

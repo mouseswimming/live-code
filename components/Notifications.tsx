@@ -52,7 +52,7 @@ const Notifications = () => {
               <InboxNotification
                 key={notification.id}
                 inboxNotification={notification}
-                className="bg-dark-200 text-white"
+                className="bg-dark-300 rounded-md mb-2 text-white overflow-hidden"
                 href={`/documents/${notification.roomId}`}
                 showActions={false}
                 kinds={{
