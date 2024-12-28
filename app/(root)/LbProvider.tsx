@@ -8,7 +8,7 @@ import { LiveblocksProvider, ClientSideSuspense } from "@liveblocks/react";
 const LbProvider = ({ children }: { children: React.ReactNode }) => {
   const { user: clerkUser } = useUser();
 
-  if (!clerkUser) return <Loader />;
+  // if (!clerkUser) return <Loader />;
 
   return (
     <LiveblocksProvider
@@ -21,7 +21,7 @@ const LbProvider = ({ children }: { children: React.ReactNode }) => {
         const roomUsers = await getDocumentUsers({
           roomId,
           userSearchText: text,
-          currentUser: clerkUser.emailAddresses[0].emailAddress,
+          currentUser: clerkUser!.emailAddresses[0].emailAddress,
         });
 
         return roomUsers ?? [];
